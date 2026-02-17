@@ -16,11 +16,15 @@ const ResultCard = ({ thumbnail, title, duration, qualities, onDownload, downloa
   const [copied, setCopied] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState(qualities[0]);
 
+  const [imageError, setImageError] = useState(false);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(downloadUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const showDuration = duration && duration !== "0:0" && duration !== "0:00";
 
   return (
     <motion.div
@@ -28,12 +32,28 @@ const ResultCard = ({ thumbnail, title, duration, qualities, onDownload, downloa
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-lg mx-auto rounded-2xl border border-border bg-card p-6 shadow-card"
     >
-      <div className="relative mb-4 overflow-hidden rounded-xl bg-muted aspect-video">
-        <img src={thumbnail} alt={title} className="h-full w-full object-cover" />
-        <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded-lg bg-foreground/70 px-2 py-1 text-xs text-background">
-          <Film className="h-3 w-3" />
-          {duration}
-        </div>
+      <div className="relative mb-4 overflow-hidden rounded-xl bg-muted aspect-video group">
+        {!imageError ? (
+          <img 
+            src={thumbnail} 
+            alt={title} 
+            className="h-full w-full object-cover" 
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="h-full w-full gradient-instagram flex items-center justify-center p-4 text-center">
+             <span className="text-white font-display font-bold text-lg line-clamp-3">
+               {title || "Instagram Video"}
+             </span>
+          </div>
+        )}
+        
+        {showDuration && (
+          <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded-lg bg-foreground/70 px-2 py-1 text-xs text-background">
+            <Film className="h-3 w-3" />
+            {duration}
+          </div>
+        )}
       </div>
 
       <h3 className="mb-3 font-display text-lg font-semibold line-clamp-2">{title}</h3>
