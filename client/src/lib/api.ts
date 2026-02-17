@@ -7,8 +7,10 @@ export interface ExtractResult {
   downloadUrl: string;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
+
 export const extractVideo = async (url: string): Promise<ExtractResult> => {
-  const response = await fetch('/api/v1/extract', {
+  const response = await fetch(`${API_BASE}/extract`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ export const extractVideo = async (url: string): Promise<ExtractResult> => {
 
 export const downloadVideo = (url: string, filename?: string) => {
   // Use the download proxy endpoint
-  const downloadUrl = `/api/v1/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || 'video')}`;
+  const downloadUrl = `${API_BASE}/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || 'video')}`;
   
   // Create a hidden anchor tag to trigger download
   const link = document.createElement('a');
