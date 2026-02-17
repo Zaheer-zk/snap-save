@@ -1,73 +1,133 @@
-# Welcome to your Lovable project
+# SnapSave - Instagram Video Downloader 📸
 
-## Project info
+**SnapSave** (also known as *snapInsta*) is a modern, high-performance web application that allows users to download Instagram Videos, Reels, and IGTV content instantly without watermarks.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+![SnapSave Demo](./client/public/og-image.png)
+*(Note: Replace with actual screenshot if available)*
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🚀 Features
 
-**Use Lovable**
+-   **Zero Login Required**: Download content instantly without authentication.
+-   **Multi-Format Support**: Works seamlessly with:
+    -   Instagram Reels
+    -   IGTV Videos
+    -   Standard Posts (Videos & Images)
+    -   Carousels (Multiple items)
+-   **High Quality**: Fetches the best available resolution from Instagram.
+-   **Modern UI**: Built with a sleek, responsive design using Tailwind CSS and Framer Motion.
+-   **Developer Friendly**: Full TypeScript support across the entire stack.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠 Tech Stack
 
-**Use your preferred IDE**
+This project is structured as a **Monorepo** containing both the frontend and backend.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### **Frontend (Client)**
+-   **Framework**: [React 18](https://react.dev/)
+-   **Build Tool**: [Vite](https://vitejs.dev/)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [Shadcn UI](https://ui.shadcn.com/)
+-   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+-   **State Management**: [TanStack Query](https://tanstack.com/query/latest)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### **Backend (Server)**
+-   **Runtime**: [Node.js](https://nodejs.org/)
+-   **Framework**: [Express.js](https://expressjs.com/)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **Validation**: [Zod](https://zod.dev/)
+-   **Extraction**: `instagram-url-direct` library for robust media data fetching.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📂 Project Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+/snap-save
+├── client/          # React Frontend application
+│   ├── src/
+│   └── vite.config.ts
+├── server/          # Node.js Backend API
+│   ├── src/
+│   │   ├── services/   # Business logic (Instagram extraction)
+│   │   └── routes/     # API endpoints
+│   └── package.json
+├── package.json     # Workspace configuration
+└── DEPLOYMENT.md    # Detailed deployment guide
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## ⚡ Getting Started
 
-**Use GitHub Codespaces**
+Follow these steps to run the project locally.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Prerequisites
+-   Node.js (v18+ recommended)
+-   npm or yarn
 
-## What technologies are used for this project?
+### Installation
 
-This project is built with:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/snap-save.git
+    cd snap-save
+    ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+2.  **Install dependencies**:
+    Depending on your setup, you can install from the root if workspaces are configured, or individually:
+    ```bash
+    # Install root, client, and server dependencies
+    npm install
+    cd client && npm install
+    cd ../server && npm install
+    cd ..
+    ```
 
-## How can I deploy this project?
+### Running Locally
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+To run both the frontend and backend concurrently:
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+# From the root directory
+npm start
+```
 
-Yes, you can!
+-   **Frontend**: Opens at `http://localhost:8080`
+-   **Backend**: Runs at `http://localhost:3000`
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🌍 Environment Variables
+
+You can configure the application using `.env` files. We have provided sensible defaults in `.env.local` for development.
+
+**Backend (`server/.env`)**
+```env
+PORT=3000
+CORS_ORIGIN=*  # Allow all origins for dev, restrict in prod
+```
+
+**Frontend (`client/.env`)**
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+```
+
+---
+
+## 🚢 Deployment
+
+For detailed deployment instructions for Vercel (Frontend) and Render/Railway (Backend), please refer to the **[Deployment Guide](./DEPLOYMENT.md)**.
+
+---
+
+## 📝 License
+
+This project is open-source and available under the MIT License.
+
+---
+
+<p align="center">
+  Made with Love ❤️ by <a href="https://my-portfolio-zaheer.vercel.app/" target="_blank">Zaheer Khan</a>
+</p>
