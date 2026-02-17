@@ -1,11 +1,11 @@
 # Architecture Design
 
 ## Overview
-This project is an **Instagram Video Downloader** web application. It is currently a Single Page Application (SPA) built with React and Vite. The next phase involves building a robust backend to handle the actual video extraction logic, removing the reliance on client-side mocks.
+This project is an **Instagram Video Downloader** web application, structured as a monorepo with a React frontend and a Node.js backend. The backend handles video extraction logic using specialized libraries to bypass restrictions and provide direct download links.
 
 ## Technology Stack
 
-### Frontend (Existing)
+### Frontend (Client)
 - **Framework**: React 18
 - **Build Tool**: Vite
 - **Language**: TypeScript
@@ -14,29 +14,27 @@ This project is an **Instagram Video Downloader** web application. It is current
 - **Routing**: React Router DOM
 - **Animations**: Framer Motion
 
-### Backend (Proposed)
+### Backend (Server)
 - **Runtime**: Node.js
-- **Framework**: Express.js or Hono (lightweight, fast)
+- **Framework**: Express.js
 - **Language**: TypeScript
 - **Validation**: Zod
-- **Scraping/Extraction**: Custom scraper or integration with third-party APIs (e.g., RapidAPI) or libraries like `instagram-url-direct` / `puppetter`.
+- **Extraction Library**: `instagram-url-direct` (for robust media extraction)
+- **Utilities**: `axios`, `cors`, `helmet`, `dotenv`
 
 ## System Architecture
 
 ### 1. High-Level Flow
 1.  **User Input**: User pastes an Instagram URL (Post, Reel, IGTV) into the Frontend `UrlInput` component.
-2.  **Request**: Frontend sends a `POST /api/extract` request to the Backend with the URL.
+2.  **Request**: Frontend sends a `POST /api/v1/extract` request to the Backend with the URL.
 3.  **Processing (Backend)**:
-    -   Validates the URL format.
-    -   Initiates the extraction process (web scraping or API call).
-    -   Parses the response to get:
-        -   Video Title
-        -   Thumbnail URL
-        -   Video Duration
-        -   Direct Download Links (MP4) for available resolutions.
-4.  **Response**: Backend sends a JSON response back to the Frontend.
-5.  **Display**: Frontend displays the `ResultCard` with the extracted data.
-6.  **Download**: User clicks "Download", initiating a file download directly from the source or via a proxy endpoint if needed to bypass CORs.
+    -   Validates the URL using Zod.
+    -   Uses `instagram-url-direct` to fetch media details.
+    -   Extracts metadata (thumbnail, video URL, etc.).
+    -   Constructs a standardized response object.
+4.  **Response**: Backend sends a JSON response with video details and download links.
+5.  **Display**: Frontend displays the `ResultCard` with the video thumbnail and download options.
+6.  **Download**: User clicks "Download". The frontend triggers a file download, potentially proxying through the backend if needed to handle CORS/Content-Disposition (future enhancement).
 
 ### 2. API Design
 
@@ -54,15 +52,14 @@ This project is an **Instagram Video Downloader** web application. It is current
   "success": true,
   "data": {
     "id": "media_id_123",
-    "title": "Amazing Sunset",
+    "title": "Instagram Video",
     "thumbnail": "https://instagram.com/...",
     "duration": "0:15",
-    "author": "user_handle",
+    "author": "user_handle", // Optional
     "downloads": [
       {
-        "quality": "1080p",
-        "url": "https://cdn.instagram.com/...",
-        "size": "15MB" // Optional
+        "quality": "Original",
+        "url": "https://cdn.instagram.com/..."
       }
     ]
   }
@@ -72,36 +69,33 @@ This project is an **Instagram Video Downloader** web application. It is current
 **Error Response (400/500):**
 ```json
 {
-  "success": false,
-  "error": {
-    "code": "INVALID_URL",
-    "message": "The provided URL is not accessible or private."
-  }
+  "error": "Failed to extract video metadata"
 }
 ```
 
-### 3. Folder Structure (Monorepo-style or Separate)
-Since the current root is the frontend, we can create a `server` directory for the backend to keep it in the same repo for simplicity.
+### 3. Folder Structure (Monorepo)
+The project identifies as a monorepo with distinct workspaces for client and server.
 
 ```
 /snap-save
-├── src/                # Frontend Source
-├── server/             # Backend Source (New)
+├── client/             # Frontend Application (Vite + React)
+│   ├── src/
+│   ├── vite.config.ts
+│   └── package.json
+├── server/             # Backend Application (Node + Express)
 │   ├── src/
 │   │   ├── controllers/
 │   │   ├── routes/
-│   │   ├── services/   # Extraction Logic
-│   │   ├── utils/
+│   │   ├── services/   # Extraction Logic (instagram.service.ts)
 │   │   └── app.ts
 │   ├── package.json
 │   └── tsconfig.json
-├── package.json        # Root package.json (can use workspaces)
-└── README.md
+├── package.json        # Root package.json (Manager)
+└── architecture.md     # System Design Documentation
 ```
 
 ## Security & Performance Considerations
--   **Rate Limiting**: Implement strict rate limiting on the `/extract` endpoint to prevent abuse.
--   **CORS**: Configure CORS to only allow requests from the frontend domain.
--   **Validation**: Strict input validation using Zod to reject non-Instagram URLs immediately.
--   **Error Handling**: Graceful handling of changed Instagram selectors/API structures.
--   **Proxying**: If Instagram CDN links have hotlinking protection/CORS issues, a `/api/v1/download?url=...` proxy endpoint might be needed to stream the file to the user.
+-   **Rate Limiting**: To prevent abuse.
+-   **CORS**: Configured to allow requests from the frontend domain.
+-   **Validation**: Strict input validation using Zod.
+-   **Error Handling**: Centralized error handling in the backend.
