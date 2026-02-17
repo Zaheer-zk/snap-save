@@ -9,6 +9,8 @@ import FaqSection from "@/components/FaqSection";
 import ResultCard from "@/components/ResultCard";
 import heroBg from "@/assets/hero-bg.jpg";
 
+import { extractVideo, downloadVideo } from "@/lib/api";
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,28 +22,39 @@ const Index = () => {
     downloadUrl: string;
   } | null>(null);
 
-  const handleSubmit = (url: string) => {
+  const handleSubmit = async (url: string) => {
     setIsLoading(true);
     setError(null);
     setResult(null);
 
-    // Simulate extraction (replace with real API call)
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const data = await extractVideo(url);
       setResult({
-        thumbnail: heroBg,
-        title: "Instagram Reel — Downloaded via snapInsta",
-        duration: "0:30",
-        qualities: ["1080p", "720p", "480p"],
-        downloadUrl: url,
+        thumbnail: data.thumbnail,
+        title: data.title,
+        duration: data.duration,
+        qualities: data.qualities.length > 0 ? data.qualities : ['Original'],
+        downloadUrl: data.downloadUrl,
       });
-    }, 2000);
+    } catch (err: any) {
+      setError(err.message || "Failed to extract video. Please check the URL.");
+      toast.error("Extraction failed", {
+        description: err.message || "Could not find video at this URL.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDownload = (quality: string) => {
-    toast.success(`Downloading in ${quality}...`, {
-      description: "Your file will be ready in a moment.",
+    if (!result?.downloadUrl) return;
+    
+    toast.success(`Downloading ${quality}...`, {
+      description: "Your download is starting.",
     });
+
+    // Initiate download via proxy
+    downloadVideo(result.downloadUrl, result.title || 'instagram_video');
   };
 
   return (
