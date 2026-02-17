@@ -9,6 +9,9 @@ import FaqSection from "@/components/FaqSection";
 import ResultCard from "@/components/ResultCard";
 import heroBg from "@/assets/hero-bg.jpg";
 
+import { AnimatePresence } from "framer-motion";
+import { LoadingScreen } from "@/components/LoadingScreen";
+
 import { extractVideo, downloadVideo } from "@/lib/api";
 
 const Index = () => {
@@ -59,6 +62,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <AnimatePresence>
+        {isLoading && <LoadingScreen key="loading" />}
+      </AnimatePresence>
       <Header />
 
       {/* Hero */}

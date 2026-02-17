@@ -56,7 +56,11 @@ const ResultCard = ({ thumbnail, title, duration, qualities, onDownload, downloa
         )}
       </div>
 
-      <h3 className="mb-3 font-display text-lg font-semibold line-clamp-2">{title}</h3>
+      <div className="mb-2 flex items-center gap-2 text-green-600 font-medium">
+        <Check className="h-4 w-4" />
+        <span>Video is ready. Click download to get your video.</span>
+      </div>
+      <h3 className="mb-3 font-display text-lg font-semibold line-clamp-2">{title || "Instagram Video"}</h3>
 
       <div className="mb-4 flex flex-wrap gap-2">
         {qualities.map((q) => (
