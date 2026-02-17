@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "commonjs", // Better with ts-node/express
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "outDir": "dist",
+        "rootDir": "src",
+        "strict": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
