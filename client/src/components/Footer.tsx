@@ -32,7 +32,10 @@ const Footer = () => (
         </div>
       </div>
       <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} snapInsta. All rights reserved.
+        <p>© {new Date().getFullYear()} snapInsta. All rights reserved.</p>
+        <p className="mt-2">
+          Made with Love ❤️ by - <a href="https://my-portfolio-zaheer.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground underline">Zaheer Khan</a>
+        </p>
       </div>
     </div>
   </footer>
