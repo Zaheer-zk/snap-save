@@ -12,8 +12,10 @@ import heroBg from "@/assets/hero-bg.jpg";
 import { AnimatePresence } from "framer-motion";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import ScrollToTop from "@/components/ScrollToTop";
+import { GoogleAd } from "@/components/GoogleAd";
 
 import { extractVideo, downloadVideo } from "@/lib/api";
+
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -109,6 +111,7 @@ const Index = () => {
             <UrlInput onSubmit={handleSubmit} isLoading={isLoading} error={error} />
           </motion.div>
 
+
           {/* Result */}
           {result && (
             <div className="mt-10 w-full">
@@ -120,10 +123,17 @@ const Index = () => {
                 onDownload={handleDownload}
                 downloadUrl={result.downloadUrl}
               />
+              <div className="mt-8 flex justify-center">
+                 <GoogleAd slot="1234567890" className="w-full max-w-[728px] h-[90px]" />
+              </div>
             </div>
           )}
         </div>
       </section>
+
+      <div className="container py-8 flex justify-center">
+        <GoogleAd slot="0987654321" className="w-full max-w-[728px] h-[90px]" />
+      </div>
 
       <FeatureCards />
       <FaqSection />

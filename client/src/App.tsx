@@ -9,11 +9,14 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
+import { GoogleAdsScript } from "@/components/GoogleAd";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <GoogleAdsScript />
       <Toaster />
       <Sonner />
       <BrowserRouter>
