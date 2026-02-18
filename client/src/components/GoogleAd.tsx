@@ -2,26 +2,6 @@ import React, { useEffect } from 'react';
 
 const GOOGLE_ADS_CLIENT_ID = import.meta.env.VITE_GOOGLE_ADS_CLIENT_ID;
 
-export const GoogleAdsScript = () => {
-  useEffect(() => {
-    if (!GOOGLE_ADS_CLIENT_ID) return;
-
-    // Check if script is already present
-    if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
-
-    const script = document.createElement('script');
-    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADS_CLIENT_ID}`;
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    document.head.appendChild(script);
-
-    return () => {
-      // Create cleanup function if needed, but ads usually stay for SPA navigation
-    };
-  }, []);
-
-  return null;
-};
 
 interface GoogleAdProps {
   slot: string;

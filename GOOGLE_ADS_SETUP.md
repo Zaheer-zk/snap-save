@@ -9,9 +9,21 @@ This guide explains how to configure and manage Google Ads on the SnapInsta appl
 
 ## Configuration
 
-### 1. Environment Variables
+### 1. Script Installation
 
-You need to configure your Google Ads Client ID in the `.env` file.
+The Google AdSense script must be included in the `<head>` of your `client/index.html` file.
+
+```html
+<script 
+  async 
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_CLIENT_ID_HERE"
+  crossorigin="anonymous">
+</script>
+```
+
+### 2. Environment Variables
+
+You also need to configure your Google Ads Client ID in the `.env` file for the components to function correctly.
 
 1.  Open `client/.env`.
 2.  Add or update the `VITE_GOOGLE_ADS_CLIENT_ID` variable:
@@ -22,9 +34,9 @@ VITE_GOOGLE_ADS_CLIENT_ID=ca-pub-YOUR_CLIENT_ID_HERE
 
 **Note:** In development mode (`npm run dev`), the ads will show as placeholders to prevent invalid traffic activity on your account.
 
-### 2. Ad Components
+### 3. Ad Components
 
-The project uses a reusable `GoogleAd` component located in `client/src/components/GoogleAd.tsx`.
+The project uses a reusable `GoogleAd` component located in `client/src/components/GoogleAd.tsx` to display ads. The component checks for the presence of the global `adsbygoogle` object.
 
 #### Usage
 
@@ -51,14 +63,14 @@ import { GoogleAd } from "@/components/GoogleAd";
 | `responsive` | `boolean` | `true` | Whether the ad is responsive. |
 | `layoutKey` | `string` | `undefined` | Optional layout key for In-feed ads. |
 
-### 3. Adding New Ad Units
+### 4. Adding New Ad Units
 
 1.  Go to your AdSense dashboard > **Ads** > **By ad unit**.
 2.  Create a new display ad unit.
 3.  Copy the `data-ad-slot` number.
 4.  Place the `<GoogleAd />` component where you want it to appear and pass the slot ID.
 
-### 4. Locations
+### 5. Locations
 
 Currently, ads are placed in:
 
