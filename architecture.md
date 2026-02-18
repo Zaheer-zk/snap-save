@@ -19,7 +19,7 @@ This project is an **Instagram Video Downloader** web application, structured as
 - **Framework**: Express.js
 - **Language**: TypeScript
 - **Validation**: Zod
-- **Extraction Library**: `instagram-url-direct` (for robust media extraction)
+- **Extraction**: Custom multi-strategy scraper (`axios` + `cheerio`) with fallbacks (HTML scraping → GraphQL → Embed)
 - **Utilities**: `axios`, `cors`, `helmet`, `dotenv`
 
 ## System Architecture
