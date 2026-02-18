@@ -14,7 +14,6 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import ScrollToTop from "@/components/ScrollToTop";
 
 import { extractVideo, downloadVideo } from "@/lib/api";
-import { Footer } from "react-day-picker";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
