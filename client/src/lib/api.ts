@@ -27,14 +27,36 @@ export const extractVideo = async (url: string): Promise<ExtractResult> => {
   return data;
 };
 
+/**
+ * Sanitizes a string for use as a filename.
+ * Format: SnapSave_{FirstWord}_downloaded.mp4
+ */
+function sanitizeFilename(name: string): string {
+  let cleaned = name
+    // Remove common IG caption prefixes like "75K likes, 1,231 comments - username on Month Day, Year: "
+    .replace(/^[\d,.]+[KkMm]?\s*likes?,?\s*[\d,.]+\s*comments?\s*-\s*/i, '')
+    // Remove "username on Month Day, Year: " or similar date prefix
+    .replace(/^[^\s]+\s+on\s+\w+\s+\d{1,2},?\s*\d{4}[_:\s]*/i, '')
+    // Strip non-alphanumeric (keep spaces for word splitting)
+    .replace(/[^a-zA-Z0-9\s]/g, '')
+    .trim();
+
+  // Extract the first meaningful word
+  const firstWord = cleaned.split(/\s+/).filter(w => w.length > 0)[0] || 'Video';
+
+  return `SnapSave_${firstWord}_downloaded.mp4`;
+}
+
 export const downloadVideo = (url: string, filename?: string) => {
+  const safeFilename = sanitizeFilename(filename || 'instagram_video');
+
   // Use the download proxy endpoint
-  const downloadUrl = `${API_BASE}/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename || 'video')}`;
+  const downloadUrl = `${API_BASE}/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(safeFilename)}`;
   
   // Create a hidden anchor tag to trigger download
   const link = document.createElement('a');
   link.href = downloadUrl;
-  link.setAttribute('download', filename || 'video.mp4'); // Though the server sets Content-Disposition, this is a fallback hint
+  link.setAttribute('download', safeFilename);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

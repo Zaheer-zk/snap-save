@@ -45,7 +45,16 @@ class DownloadController {
         res.setHeader('Content-Length', contentLength);
       }
 
-      const safeFilename = (typeof filename === 'string' ? filename : 'video') + '.mp4';
+      // Sanitize filename on server side as a safety net
+      let rawFilename = typeof filename === 'string' ? filename : 'video';
+      rawFilename = rawFilename
+        .replace(/[^a-zA-Z0-9\s\-_\.]/g, '')
+        .replace(/[\s]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .trim();
+      if (!rawFilename) rawFilename = 'instagram_video';
+      // Ensure .mp4 extension
+      const safeFilename = rawFilename.endsWith('.mp4') ? rawFilename : `${rawFilename}.mp4`;
       res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"`);
 
       // Pipe the stream
