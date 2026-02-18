@@ -71,7 +71,7 @@ const Index = () => {
       {/* Hero */}
       <section className="relative hero-bg overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="container relative z-10 flex flex-col items-center px-4 py-24 md:py-32">
+        <div className="container relative z-10 flex flex-col items-center px-4 py-16 md:py-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

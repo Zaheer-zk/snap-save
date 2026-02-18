@@ -49,27 +49,29 @@ const UrlInput = ({ onSubmit, isLoading, error }: UrlInputProps) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="relative flex items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-card transition-shadow focus-within:shadow-glow">
-        <div className="flex items-center pl-3 text-muted-foreground">
-          <Link2 className="h-5 w-5" />
+      <div className="relative flex flex-col sm:flex-row items-stretch sm:items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-card transition-shadow focus-within:shadow-glow">
+        <div className="flex flex-1 items-center gap-2 px-2">
+          <div className="flex items-center text-muted-foreground shrink-0">
+            <Link2 className="h-5 w-5" />
+          </div>
+          <input
+            type="url"
+            value={url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+              setValidationError(null);
+            }}
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            placeholder="Paste Instagram video link here..."
+            className="flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground md:text-base min-w-0"
+            maxLength={500}
+            disabled={isLoading}
+          />
         </div>
-        <input
-          type="url"
-          value={url}
-          onChange={(e) => {
-            setUrl(e.target.value);
-            setValidationError(null);
-          }}
-          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-          placeholder="Paste Instagram video link here..."
-          className="flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground md:text-base"
-          maxLength={500}
-          disabled={isLoading}
-        />
         <Button
           onClick={handleSubmit}
           disabled={isLoading || !url.trim()}
-          className="h-12 rounded-xl px-6 gradient-instagram text-primary-foreground font-semibold transition-all hover:opacity-90 disabled:opacity-50"
+          className="h-12 w-full sm:w-auto rounded-xl px-6 gradient-instagram text-primary-foreground font-semibold transition-all hover:opacity-90 disabled:opacity-50"
         >
           {isLoading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
