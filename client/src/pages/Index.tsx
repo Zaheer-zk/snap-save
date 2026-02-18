@@ -16,6 +16,7 @@ import { GoogleAd } from "@/components/GoogleAd";
 
 import { extractVideo, downloadVideo } from "@/lib/api";
 
+import { SEO } from "@/components/SEO";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -65,6 +66,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO />
       <AnimatePresence>
         {isLoading && <LoadingScreen key="loading" />}
       </AnimatePresence>

@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { ClipboardPaste, Search, Download } from "lucide-react";
 
+import { SEO } from "@/components/SEO";
+
 const steps = [
   { icon: ClipboardPaste, title: "Paste the Link", desc: "Copy the Instagram video URL from the app or browser and paste it into the input field." },
   { icon: Search, title: "Extract & Preview", desc: "Our system validates the link, fetches the video metadata, and shows you a preview with quality options." },
@@ -11,6 +13,11 @@ const steps = [
 
 const HowItWorks = () => (
   <div className="min-h-screen flex flex-col">
+    <SEO 
+      title="How It Works" 
+      description="Learn how to download Instagram videos in 3 simple steps. Paste link, extract, and download instantly with snapInsta."
+      url="https://snapinsta.app/how-it-works"
+    />
     <Header />
     <main className="container flex-1 py-20">
       <motion.h1

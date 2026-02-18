@@ -1,8 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import { SEO } from "@/components/SEO";
+
 const Privacy = () => (
   <div className="min-h-screen flex flex-col">
+    <SEO 
+      title="Privacy Policy" 
+      description="Read the Privacy Policy for snapInsta. We value your privacy and do not store personal data."
+      url="https://snapinsta.app/privacy"
+    />
     <Header />
     <main className="container max-w-3xl flex-1 py-20">
       <h1 className="mb-8 font-display text-4xl font-bold">Privacy Policy</h1>

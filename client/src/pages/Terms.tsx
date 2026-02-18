@@ -1,8 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import { SEO } from "@/components/SEO";
+
 const Terms = () => (
   <div className="min-h-screen flex flex-col">
+    <SEO 
+      title="Terms of Service" 
+      description="Terms of Use for snapInsta. Understand our usage policies and disclaimers."
+      url="https://snapinsta.app/terms"
+    />
     <Header />
     <main className="container max-w-3xl flex-1 py-20">
       <h1 className="mb-8 font-display text-4xl font-bold">Terms of Service</h1>
